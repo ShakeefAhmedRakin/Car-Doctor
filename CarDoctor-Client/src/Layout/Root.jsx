@@ -6,6 +6,7 @@ const Root = () => {
   return (
     <div className="font-inter">
       <Navbar></Navbar>
+
       <Outlet></Outlet>
       <Footer></Footer>
     </div>

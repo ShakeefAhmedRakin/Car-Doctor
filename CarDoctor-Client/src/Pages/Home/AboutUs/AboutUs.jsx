@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const AboutUs = () => {
   return (
     <>
@@ -32,9 +34,13 @@ const AboutUs = () => {
             Trust us for all your automotive needs, and experience the
             difference that years of qualification and experience make.
           </p>
-          <button className="btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white">
-            Learn More
-          </button>
+          <div>
+            <Link to="/about" reloadDocument>
+              <button className="btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white">
+                Learn More
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </>

@@ -26,7 +26,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar my-5 max-w-7xl mx-auto px-2 md:px-8">
+      <div className="navbar my-5 max-w-7xl px-2 md:px-8 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -47,7 +47,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content mt-3 z-[50] py-5 pl-8 w-screen -ml-2 bg-white space-y-4 font-semibold"
+              className="dropdown-content mt-3 z-[50] py-5 pl-8 w-screen -ml-2 bg-white space-y-4 font-semibold lg:w-0"
             >
               {links}
             </ul>
@@ -58,7 +58,7 @@ const Navbar = () => {
           />
         </div>
         <div className="navbar-center hidden lg:flex mr-8">
-          <ul className="flex gap-x-12 font-semibold">{links}</ul>
+          <ul className="flex text-lg font-medium gap-9">{links}</ul>
         </div>
         <div className="navbar-end gap-x-1">
           <button className="text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
