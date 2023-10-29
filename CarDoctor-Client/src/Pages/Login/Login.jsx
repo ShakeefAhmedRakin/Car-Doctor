@@ -1,8 +1,45 @@
 import { FcGoogle } from "react-icons/fc";
 import { BiLogoFacebook, BiLogoLinkedin } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import { toast } from "sonner";
+import { useContext } from "react";
 
 const Login = () => {
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((result) => {
+        console.log(result.user);
+        toast.success("Successfully logged in. Redirecting...");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    signInUser(email, password)
+      .then(() => {
+        toast.success("Successfully logged in. Redirecting...");
+        e.target.reset();
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
   return (
     <>
       <div className="max-w-7xl mx-auto px-2 md:px-8 my-12">
@@ -15,7 +52,7 @@ const Login = () => {
           {/* FORM */}
           <div className="flex-1">
             <div className="w-full py-16 px-8 md:px-12 lg:px-20 border-[1px] rounded-xl shadow-sm">
-              <form className="flex flex-col">
+              <form className="flex flex-col" onSubmit={handleLogin}>
                 <h1 className="text-center text-2xl lg:text-4xl font-semibold mb-8">
                   Login
                 </h1>
@@ -51,7 +88,7 @@ const Login = () => {
                 <button className="btn btn-circle">
                   <BiLogoLinkedin className="text-xl text-[#0a66c2]"></BiLogoLinkedin>
                 </button>
-                <button className="btn btn-circle">
+                <button className="btn btn-circle" onClick={handleGoogleSignIn}>
                   <FcGoogle className="text-xl"></FcGoogle>
                 </button>
               </div>
