@@ -1,9 +1,22 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { CiSearch } from "react-icons/ci";
 import { PiShoppingBagLight } from "react-icons/pi";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
+import { toast } from "sonner";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast.success("Successfully logged out");
+      })
+      .catch((error) => console.log(error));
+  };
+
   const links = (
     <>
       <li className="navigation-link">
@@ -61,15 +74,42 @@ const Navbar = () => {
           <ul className="flex text-lg font-medium gap-9">{links}</ul>
         </div>
         <div className="navbar-end gap-x-1">
-          <button className="text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
+          <button className="hidden md:flex text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
             <PiShoppingBagLight></PiShoppingBagLight>
           </button>
-          <button className="text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
+          <button className="hidden md:flex marker:text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
             <CiSearch></CiSearch>
           </button>
-          <button className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white ml-2 md:ml-4">
-            Appointment
-          </button>
+          <div className="flex ml-2 md:ml-4">
+            {user ? (
+              <>
+                {user.displayName ? (
+                  <>
+                    <div className="hidden md:flex justify-center items-center border-[1px] border-white py-[2.55px] pl-[3.5px] pr-2">
+                      <p className="text-primary font-semibold underline">
+                        {user?.displayName}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                <a
+                  className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white"
+                  onClick={handleLogOut}
+                >
+                  Log out
+                </a>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white ml-2 md:ml-4"
+              >
+                Login
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </>
