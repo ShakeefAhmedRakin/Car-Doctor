@@ -76,9 +76,11 @@ const Navbar = () => {
           <div className="flex ml-2 md:ml-4 gap-x-4">
             {user ? (
               <>
-                <button className="text-2xl btn rounded-full bg-transparent text-gray-800">
-                  <BiSolidCarMechanic></BiSolidCarMechanic>
-                </button>
+                <Link to="/bookings">
+                  <button className="text-2xl btn rounded-full bg-transparent text-gray-800">
+                    <BiSolidCarMechanic></BiSolidCarMechanic>
+                  </button>
+                </Link>
                 <div className="dropdown dropdown-end">
                   <label
                     tabIndex={0}
@@ -91,9 +93,9 @@ const Navbar = () => {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content z-[50] menu p-4 shadow rounded-box w-60 bg-white"
+                    className="dropdown-content z-[50] menu p-4 shadow rounded-md w-fit bg-white"
                   >
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-x-5 gap-y-2">
                       <div>
                         <p className="text-primary font-semibold">
                           {user?.displayName}
@@ -102,12 +104,14 @@ const Navbar = () => {
                           {user?.email}
                         </p>
                       </div>
-                      <a
-                        className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white"
-                        onClick={handleLogOut}
-                      >
-                        Log out
-                      </a>
+                      <div className="w-fit">
+                        <a
+                          className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white whitespace-nowrap"
+                          onClick={handleLogOut}
+                        >
+                          Log out
+                        </a>
+                      </div>
                     </div>
                   </ul>
                 </div>

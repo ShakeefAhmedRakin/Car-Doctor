@@ -11,6 +11,8 @@ import Error from "./Pages/Error/Error";
 import AuthProvider from "./providers/AuthProvider";
 import ServiceDetail from "./Pages/ServiceDetail/ServiceDetail";
 import AllServices from "./Pages/AllServices/AllServices";
+import Bookings from "./Pages/Bookings/Bookings";
+import PrivateRoute from "./routes/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -40,9 +42,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/detail/:id",
-        element: <ServiceDetail></ServiceDetail>,
+        element: (
+          <PrivateRoute>
+            <ServiceDetail></ServiceDetail>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_apiURL}/services/${params.id}`),
+      },
+      {
+        path: "/bookings",
+        element: (
+          <PrivateRoute>
+            <Bookings></Bookings>
+          </PrivateRoute>
+        ),
       },
     ],
   },

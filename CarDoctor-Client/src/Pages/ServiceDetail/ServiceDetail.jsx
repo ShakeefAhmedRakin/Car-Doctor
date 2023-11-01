@@ -1,8 +1,36 @@
 import { useLoaderData } from "react-router-dom";
 import PageTitle from "../../Components/PageTitle";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { toast } from "sonner";
+
 const ServiceDetail = () => {
   const service = useLoaderData();
+
+  const { user } = useContext(AuthContext);
+
+  const bookingInfo = {
+    user_id: user.uid,
+    service_id: service._id,
+  };
+
+  const handleBooking = () => {
+    fetch(`${import.meta.env.VITE_apiURL}/bookings`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          toast.success("Successfully booked!");
+        } else {
+          toast.error("Already booked!");
+        }
+      });
+  };
 
   return (
     <>
@@ -46,11 +74,15 @@ const ServiceDetail = () => {
                 <h1 className="text-2xl font-bold whitespace-nowrap">
                   Price: {service.price}
                 </h1>
-                <Link to="/about" className="w-full">
-                  <button className="btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white w-full">
+
+                <div className="w-full">
+                  <button
+                    onClick={handleBooking}
+                    className="btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white w-full"
+                  >
                     Book Now
                   </button>
-                </Link>
+                </div>
               </div>
             </div>
           </div>
