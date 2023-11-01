@@ -37,13 +37,13 @@ const router = createBrowserRouter([
       {
         path: "/services",
         element: <AllServices></AllServices>,
-        loader: () => fetch(`http://localhost:5000/services`),
+        loader: () => fetch(`${import.meta.env.VITE_apiURL}/services`),
       },
       {
         path: "/detail/:id",
         element: <ServiceDetail></ServiceDetail>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/services/${params.id}`),
+          fetch(`${import.meta.env.VITE_apiURL}/services/${params.id}`),
       },
     ],
   },

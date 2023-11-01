@@ -35,7 +35,7 @@ const AboutUs = () => {
             difference that years of qualification and experience make.
           </p>
           <div>
-            <Link to="/about" reloadDocument>
+            <Link to="/about">
               <button className="btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white">
                 Learn More
               </button>

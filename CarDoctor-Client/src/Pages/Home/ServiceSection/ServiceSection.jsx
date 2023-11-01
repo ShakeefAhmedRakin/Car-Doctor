@@ -7,7 +7,7 @@ const ServiceSection = () => {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/services?limit=6")
+    fetch(`${import.meta.env.VITE_apiURL}/services?limit=6`)
       .then((res) => res.json())
       .then((data) => setServices(data));
   }, []);
