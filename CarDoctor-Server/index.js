@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -24,9 +24,22 @@ async function run() {
   try {
     const serviceCollection = client.db("cardoctorDB").collection("services");
 
+    // SERVICES GET API
     app.get("/services", async (req, res) => {
-      const cursor = serviceCollection.find();
+      const limit = req.query.limit ? parseInt(req.query.limit) : 0;
+      const cursor =
+        limit > 0
+          ? serviceCollection.find().limit(limit)
+          : serviceCollection.find();
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // GET ON SERVICE DATA
+    app.get("/services/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await serviceCollection.findOne(query);
       res.send(result);
     });
 
