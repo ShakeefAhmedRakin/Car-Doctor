@@ -1,7 +1,16 @@
+import { useState, useEffect } from "react";
 import SectionTitle from "../../../Components/SectionTitle";
 import ServiceCard from "../../../Components/ServiceCard";
 
 const ServiceSection = () => {
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/services?limit=6")
+      .then((res) => res.json())
+      .then((data) => setServices(data));
+  }, []);
+
   return (
     <>
       <SectionTitle
@@ -13,12 +22,9 @@ const ServiceSection = () => {
       ></SectionTitle>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
-        <ServiceCard></ServiceCard>
-        <ServiceCard></ServiceCard>
-        <ServiceCard></ServiceCard>
-        <ServiceCard></ServiceCard>
-        <ServiceCard></ServiceCard>
-        <ServiceCard></ServiceCard>
+        {services.map((service) => (
+          <ServiceCard key={service._id} service={service}></ServiceCard>
+        ))}
       </div>
     </>
   );
