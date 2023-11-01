@@ -1,9 +1,15 @@
+import { useEffect, useState } from "react";
 import PageTitle from "../../Components/PageTitle";
 import ServiceCard from "../../Components/ServiceCard";
-import { useLoaderData } from "react-router-dom";
 
 const AllServices = () => {
-  const services = useLoaderData();
+  const [services, setServices] = useState([]);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_apiURL}/services`)
+      .then((res) => res.json())
+      .then((data) => setServices(data));
+  }, []);
 
   return (
     <>

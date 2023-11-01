@@ -1,7 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
-import { CiSearch } from "react-icons/ci";
-import { PiShoppingBagLight } from "react-icons/pi";
+import { BiSolidCarMechanic } from "react-icons/bi";
 import { useContext } from "react";
 import { AuthContext } from "../../../providers/AuthProvider";
 import { toast } from "sonner";
@@ -74,32 +73,44 @@ const Navbar = () => {
           <ul className="flex text-lg font-medium gap-9">{links}</ul>
         </div>
         <div className="navbar-end gap-x-1">
-          <button className="hidden md:flex text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
-            <PiShoppingBagLight></PiShoppingBagLight>
-          </button>
-          <button className="hidden md:flex marker:text-xl md:text-2xl btn btn-sm md:btn-md rounded-full bg-transparent border-none">
-            <CiSearch></CiSearch>
-          </button>
-          <div className="flex ml-2 md:ml-4">
+          <div className="flex ml-2 md:ml-4 gap-x-4">
             {user ? (
               <>
-                {user.displayName ? (
-                  <>
-                    <div className="hidden md:flex justify-center items-center border-[1px] border-white py-[2.55px] pl-[3.5px] pr-2">
-                      <p className="text-primary font-semibold underline">
-                        {user?.displayName}
-                      </p>
+                <button className="text-2xl btn rounded-full bg-transparent text-gray-800">
+                  <BiSolidCarMechanic></BiSolidCarMechanic>
+                </button>
+                <div className="dropdown dropdown-end">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-circle p-[2px] bg-transparent hover:scale-[1.02] duration-300 border-primary hover:bg-transparent hover:border-primary"
+                  >
+                    <img
+                      src={user.photoURL}
+                      className="rounded-full aspect-square"
+                    />
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[50] menu p-4 shadow rounded-box w-60 bg-white"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-primary font-semibold">
+                          {user?.displayName}
+                        </p>
+                        <p className="text-primary font-semibold">
+                          {user?.email}
+                        </p>
+                      </div>
+                      <a
+                        className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white"
+                        onClick={handleLogOut}
+                      >
+                        Log out
+                      </a>
                     </div>
-                  </>
-                ) : (
-                  ""
-                )}
-                <a
-                  className="btn btn-primary bg-transparent text-primary text-base font-semibold px-5 border-primary normal-case hover:bg-primary hover:border-primary hover:text-white"
-                  onClick={handleLogOut}
-                >
-                  Log out
-                </a>
+                  </ul>
+                </div>
               </>
             ) : (
               <Link

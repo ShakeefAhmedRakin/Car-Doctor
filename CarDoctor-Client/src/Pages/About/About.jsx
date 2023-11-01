@@ -132,14 +132,16 @@ const About = () => {
             <div>
               <h4 className="text-xl text-primary font-bold">Contact Us</h4>
               <hr className="my-4" />
-              <p className="text-gray-600 text-sm md:text-base">
+              <p className="text-gray-600 text-sm md:text-base mb-4">
                 Have questions or ready to schedule your next car servicing
                 appointment? Contact us today to experience the Car Doctor
                 difference.
               </p>
-              <button className="mt-4 btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white">
-                Contact Us
-              </button>
+              <div className="flex justify-center md:justify-end">
+                <button className="btn btn-primary bg-primary hover:bg-primary text-white text-base px-5 border-primary normal-case hover:border-primary hover:text-white">
+                  Contact Us
+                </button>
+              </div>
             </div>
           </div>
         </div>
