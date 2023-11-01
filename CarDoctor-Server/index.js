@@ -1,6 +1,7 @@
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const axios = require("axios"); // Import the axios library
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
@@ -23,8 +24,9 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const serviceCollection = client.db("cardoctorDB").collection("services");
+    const bookingCollection = client.db("cardoctorDB").collection("bookings");
 
-    // SERVICES GET API
+    // Setting up GET API for all services
     app.get("/services", async (req, res) => {
       const limit = req.query.limit ? parseInt(req.query.limit) : 0;
       const cursor =
@@ -35,11 +37,68 @@ async function run() {
       res.send(result);
     });
 
-    // GET ON SERVICE DATA
+    // Setting up GET API for service based on id
     app.get("/services/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await serviceCollection.findOne(query);
+      res.send(result);
+    });
+
+    // Setting up POST API for bookings (NO DUPLICATES)
+    app.post("/bookings", async (req, res) => {
+      const newBooking = req.body;
+      const existingBooking = await bookingCollection.findOne(newBooking);
+
+      if (existingBooking) {
+        res.status(400).json({ error: "Booking exists." });
+      } else {
+        const result = await bookingCollection.insertOne(newBooking);
+        res.send(result);
+      }
+    });
+
+    // Setting up GET API for bookings based on user_ID
+    const apiURL = process.env.apiURL;
+    app.get("/bookings/:userID", async (req, res) => {
+      const userID = req.params.userID;
+      const query = { user_id: userID };
+      const services = await bookingCollection.find(query).toArray();
+
+      const result = [];
+
+      const fetchPromises = services.map(async (service) => {
+        const service_id = service.service_id;
+        try {
+          const response = await axios.get(`${apiURL}/services/${service_id}`);
+
+          const serviceDetails = response.data;
+
+          serviceDetails.booking_id = service._id;
+
+          return serviceDetails;
+        } catch (error) {
+          console.error("Error fetching product details:", error);
+          return null;
+        }
+      });
+
+      Promise.all(fetchPromises)
+        .then((data) => {
+          result.push(...data.filter((item) => item !== null));
+          res.send(result);
+        })
+        .catch((error) => {
+          console.error("Error handling fetch promises:", error);
+          res.status(500).send("Internal Server Error");
+        });
+    });
+
+    // Setting up DELETE API for bookings
+    app.delete("/bookings/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await bookingCollection.deleteOne(query);
       res.send(result);
     });
 
