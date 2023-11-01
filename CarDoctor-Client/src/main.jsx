@@ -9,6 +9,8 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Error from "./Pages/Error/Error";
 import AuthProvider from "./providers/AuthProvider";
+import ServiceDetail from "./Pages/ServiceDetail/ServiceDetail";
+import AllServices from "./Pages/AllServices/AllServices";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,17 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/services",
+        element: <AllServices></AllServices>,
+        loader: () => fetch(`http://localhost:5000/services`),
+      },
+      {
+        path: "/detail/:id",
+        element: <ServiceDetail></ServiceDetail>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/services/${params.id}`),
       },
     ],
   },

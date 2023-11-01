@@ -2,25 +2,14 @@ import { AiFillCustomerService } from "react-icons/ai";
 import { GiReceiveMoney } from "react-icons/gi";
 import { RiServiceFill } from "react-icons/ri";
 import { BsPersonCheckFill } from "react-icons/bs";
+import PageTitle from "../../Components/PageTitle";
 
 const About = () => {
   return (
     <>
       <div className="max-w-7xl mx-auto px-2 md:px-8">
         {/* TITLE SECTION */}
-        <div className="relative h-[200px] flex justify-center items-center">
-          <img
-            src="/src/assets/banner/4.jpg"
-            className="h-full w-full object-cover rounded-xl absolute"
-          />
-          <div className="rounded-xl h-full w-full absolute bg-gradient-to-r from-black to-transparent"></div>
-          <div className="bg-primary absolute bottom-0 text-white font-medium px-12 py-3  rounded-t-xl">
-            <h1>Home/About</h1>
-          </div>
-          <div className="z-10">
-            <h1 className="text-white font-bold text-4xl">About Us</h1>
-          </div>
-        </div>
+        <PageTitle route={"Home/About"} title={"About Us"}></PageTitle>
 
         {/* CONTENT */}
 

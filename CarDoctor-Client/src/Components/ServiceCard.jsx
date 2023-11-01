@@ -14,7 +14,7 @@ const ServiceCard = ({ service }) => {
           <p className="font-semibold text-lg text-primary my-2">
             Price: ${service.price}
           </p>
-          <Link to={`/service-detail/${service._id}`}>
+          <Link to={`/detail/${service._id}`}>
             <button className="btn btn-circle bg-transparent">
               <BsArrowRight className="text-2xl text-primary"></BsArrowRight>
             </button>
